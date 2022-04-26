@@ -10,6 +10,7 @@
 		251A4C0E2807288B00E1FCAA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 251A4C0D2807288B00E1FCAA /* AppDelegate.swift */; };
 		251A4C172807288C00E1FCAA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 251A4C162807288C00E1FCAA /* Assets.xcassets */; };
 		251A4C222807316F00E1FCAA /* MainTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 251A4C212807316F00E1FCAA /* MainTabBarController.swift */; };
+		25992ADA280F3E5B00B53630 /* ProfileHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25992AD9280F3E5B00B53630 /* ProfileHeaderView.swift */; };
 		25C214DD280748AC0086D37F /* FeedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25C214DC280748AC0086D37F /* FeedViewController.swift */; };
 		25C214DF280748BC0086D37F /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25C214DE280748BC0086D37F /* ProfileViewController.swift */; };
 		25C214E128077A960086D37F /* PostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25C214E028077A960086D37F /* PostViewController.swift */; };
@@ -22,6 +23,7 @@
 		251A4C162807288C00E1FCAA /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		251A4C1B2807288C00E1FCAA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		251A4C212807316F00E1FCAA /* MainTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarController.swift; sourceTree = "<group>"; };
+		25992AD9280F3E5B00B53630 /* ProfileHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileHeaderView.swift; sourceTree = "<group>"; };
 		25C214DC280748AC0086D37F /* FeedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedViewController.swift; sourceTree = "<group>"; };
 		25C214DE280748BC0086D37F /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		25C214E028077A960086D37F /* PostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostViewController.swift; sourceTree = "<group>"; };
@@ -58,16 +60,25 @@
 		251A4C0C2807288B00E1FCAA /* Navigation */ = {
 			isa = PBXGroup;
 			children = (
+				25992AD8280F3DD600B53630 /* Profile */,
 				251A4C0D2807288B00E1FCAA /* AppDelegate.swift */,
 				251A4C212807316F00E1FCAA /* MainTabBarController.swift */,
 				251A4C162807288C00E1FCAA /* Assets.xcassets */,
-				25C214DE280748BC0086D37F /* ProfileViewController.swift */,
 				25C214DC280748AC0086D37F /* FeedViewController.swift */,
 				25C214E028077A960086D37F /* PostViewController.swift */,
 				25C214E22807A2820086D37F /* InfoViewController.swift */,
 				251A4C1B2807288C00E1FCAA /* Info.plist */,
 			);
 			path = Navigation;
+			sourceTree = "<group>";
+		};
+		25992AD8280F3DD600B53630 /* Profile */ = {
+			isa = PBXGroup;
+			children = (
+				25992AD9280F3E5B00B53630 /* ProfileHeaderView.swift */,
+				25C214DE280748BC0086D37F /* ProfileViewController.swift */,
+			);
+			path = Profile;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -143,6 +154,7 @@
 				25C214DD280748AC0086D37F /* FeedViewController.swift in Sources */,
 				25C214DF280748BC0086D37F /* ProfileViewController.swift in Sources */,
 				251A4C222807316F00E1FCAA /* MainTabBarController.swift in Sources */,
+				25992ADA280F3E5B00B53630 /* ProfileHeaderView.swift in Sources */,
 				25C214E32807A2820086D37F /* InfoViewController.swift in Sources */,
 				25C214E128077A960086D37F /* PostViewController.swift in Sources */,
 			);

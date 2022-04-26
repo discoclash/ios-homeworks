@@ -14,6 +14,11 @@ class MainTabBarController: UITabBarController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        let screenWidth = UIScreen.main.bounds.width
+        let screenHeight = UIScreen.main.bounds.height
+        
+        print("screenWidth = \(screenWidth)")
+        print("screenHeight = \(screenHeight)")
         setupControllers()
     }
     
