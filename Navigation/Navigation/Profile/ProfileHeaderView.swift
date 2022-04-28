@@ -9,6 +9,20 @@ import UIKit
 
 class ProfileHeaderView: UIView {
     
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        backgroundColor = .lightGray
+        addSubview(profileImage)
+        addSubview(profileName)
+        addSubview(profileStatus)
+        addSubview(setStatusButton)
+        addSubview(setStatus)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     let profileImage: UIImageView = {
         let imageView = UIImageView(frame: CGRect(x: 16, y: 16, width: 100, height: 100))
         imageView.image = UIImage(named: "zhratiko")
@@ -83,12 +97,5 @@ class ProfileHeaderView: UIView {
         
     }
    
-    func customize() {
-        backgroundColor = .lightGray
-        addSubview(profileImage)
-        addSubview(profileName)
-        addSubview(profileStatus)
-        addSubview(setStatusButton)
-        addSubview(setStatus)
-    }
+
 }
