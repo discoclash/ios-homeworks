@@ -11,12 +11,23 @@ class ProfileViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
-        
+        layout()
     }
     
-    override func viewWillLayoutSubviews() {
-        let profileHeader = ProfileHeaderView(frame: self.view.safeAreaLayoutGuide.layoutFrame)
+    
+    
+    private func layout() {
+        let profileHeader = ProfileHeaderView()
+        profileHeader.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(profileHeader)
-    }
+       
+        NSLayoutConstraint.activate([
+            profileHeader.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            profileHeader.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            profileHeader.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+            profileHeader.heightAnchor.constraint(equalToConstant: 250)
+        
+        ])
+            }
 }
     

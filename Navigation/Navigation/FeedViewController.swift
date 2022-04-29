@@ -16,22 +16,55 @@ class FeedViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .white
         self.navigationItem.backButtonTitle = "Назад"
-        makeButton()
-    }
-    private func makeButton() {
-        let button = UIButton(frame: CGRect(x: 0, y: 0, width: 200, height: 40))
-        button.center = view.center
-        button.setTitle("Новый пост", for: .normal)
-        button.backgroundColor = .systemBlue
-        button.addTarget(self, action: #selector(topAction), for: .touchUpInside)
-        button.layer.cornerRadius = 12
-        view.addSubview(button)
+        layout()
     }
     
-    @objc private func topAction() {
+    private let feedStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.backgroundColor = .clear
+        stackView.axis = .vertical
+        stackView.spacing = 10
+        return stackView
+    }()
+    
+    private lazy var newPostButtonOne: UIButton = {
+        let button = UIButton()
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.setTitle("Новый пост 1", for: .normal)
+        button.backgroundColor = .systemBlue
+        button.addTarget(self, action: #selector(newPostAction), for: .touchUpInside)
+        button.layer.cornerRadius = 12
+        return button
+    }()
+    
+    private lazy var newPostButtonTwo: UIButton = {
+        let button = UIButton()
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.setTitle("Новый пост 2", for: .normal)
+        button.backgroundColor = .systemBlue
+        button.addTarget(self, action: #selector(newPostAction), for: .touchUpInside)
+        button.layer.cornerRadius = 12
+        return button
+    }()
+    
+    @objc private func newPostAction() {
         let newPostController = PostViewController()
         newPostController.titlePost = post.title
         navigationController?.pushViewController(newPostController, animated: true)
     }
+    
+    private func layout() {
+        view.addSubview(feedStackView)
+        [newPostButtonOne,newPostButtonTwo].forEach { feedStackView.addArrangedSubview($0) }
+        
+        NSLayoutConstraint.activate([
+            feedStackView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            feedStackView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            feedStackView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16)
+        
+        ])
+    }
+    
     
 }
