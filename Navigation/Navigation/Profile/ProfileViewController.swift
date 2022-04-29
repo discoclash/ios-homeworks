@@ -11,7 +11,12 @@ class ProfileViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
+        
     }
     
+    override func viewWillLayoutSubviews() {
+        let profileHeader = ProfileHeaderView(frame: self.view.safeAreaLayoutGuide.layoutFrame)
+        view.addSubview(profileHeader)
+    }
 }
     
