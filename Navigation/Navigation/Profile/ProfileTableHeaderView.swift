@@ -121,7 +121,8 @@ class ProfileHeaderView: UIView {
             setStatusButton.topAnchor.constraint(equalTo: setStatusTextField.bottomAnchor, constant: 16),
             setStatusButton.leadingAnchor.constraint(equalTo: profileImage.leadingAnchor),
             setStatusButton.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -16),
-            setStatusButton.heightAnchor.constraint(equalToConstant: 50)
+            setStatusButton.heightAnchor.constraint(equalToConstant: 50),
+            setStatusButton.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -16)
       ])
     }
 

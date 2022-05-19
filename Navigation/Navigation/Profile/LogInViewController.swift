@@ -93,7 +93,6 @@ class LogInViewController: UIViewController {
 
     @objc private func logIn() {
         let profileViewController = ProfileViewController()
-        print("assd")
         navigationController?.pushViewController(profileViewController, animated: true)
     }
     
