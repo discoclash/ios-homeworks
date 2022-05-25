@@ -10,7 +10,7 @@ import UIKit
 class MainTabBarController: UITabBarController {
     
     let feed = FeedViewController()
-    let profile = ProfileViewController()
+    let profile = LogInViewController()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,6 +28,7 @@ class MainTabBarController: UITabBarController {
         profile.tabBarItem.title = "Профиль"
         profile.tabBarItem.image = UIImage (systemName: "person.crop.circle.fill")
         profile.navigationItem.title = "ВАШ ПРОФИЛЬ"
+        profileNC.navigationBar.isHidden = true
         
         let feedNC = UINavigationController(rootViewController: feed)
         feed.tabBarItem.title = "Новости"

@@ -25,12 +25,10 @@ class ProfileHeaderView: UIView {
         imageView.contentMode = .scaleAspectFit
         imageView.clipsToBounds = true
         imageView.layer.cornerRadius = 50
-        imageView.layer.borderWidth = 3.0
-        imageView.layer.borderColor = UIColor.white.cgColor
         return imageView
     }()
     
-    let profileNameLabel: UILabel = {
+    lazy var profileNameLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.text = "Жратико"
@@ -39,7 +37,7 @@ class ProfileHeaderView: UIView {
         return label
     }()
     
-    let profileStatusLabel: UILabel = {
+    lazy var  profileStatusLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.text = "Когда кушать?"
@@ -55,9 +53,9 @@ class ProfileHeaderView: UIView {
         textField.layer.cornerRadius = 12
         textField.backgroundColor = .white
         textField.layer.borderWidth = 1
-        textField.layer.borderColor = UIColor.black.cgColor
-        textField.text = "Введите статус"
-        textField.textColor = . lightGray
+        textField.layer.borderColor = UIColor.lightGray.cgColor
+        textField.placeholder = "Введите статус"
+        textField.textColor = .lightGray
         textField.leftView = UIView(frame: CGRect(x: 0, y: 10, width: 10, height: textField.frame.height))
         textField.leftViewMode = .always
         textField.addTarget(self, action: #selector(statusTextChanged), for: .editingChanged)
@@ -66,7 +64,7 @@ class ProfileHeaderView: UIView {
     }()
     
     
-    private var statusText = ""
+    private lazy var statusText = ""
     @objc private func statusTextChanged() {
         if let text = setStatusTextField.text {
         statusText = text
@@ -78,12 +76,11 @@ class ProfileHeaderView: UIView {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setTitle("Установить статус", for: .normal)
-        button.backgroundColor = .systemBlue
+        //button.setBackgroundImage(UIImage(named: "blue_pixel"), for: .normal)
+        button.backgroundColor = colorSet
         button.setTitleColor(.white, for: .normal)
-        button.layer.cornerRadius = 4
-        button.layer.shadowOffset = CGSize(width: 4, height: 4)
-        button.layer.shadowColor = UIColor.black.cgColor
-        button.layer.shadowOpacity = 0.7
+        button.layer.cornerRadius = 10
+        button.clipsToBounds = true
         button.addTarget(self, action: #selector(setStatusFunc), for: .touchUpInside)
         return button
     }()
@@ -92,12 +89,12 @@ class ProfileHeaderView: UIView {
         if statusText != "" {
             profileStatusLabel.text = statusText
         }
-        setStatusTextField.text = "Введите статус"
+        setStatusTextField.text = ""
         
     }
    
     private func setupView() {
-        backgroundColor = .lightGray
+        backgroundColor = .white
         [profileImage, profileNameLabel, profileStatusLabel, setStatusButton, setStatusTextField].forEach { addSubview($0) }
         
         NSLayoutConstraint.activate([
@@ -124,7 +121,8 @@ class ProfileHeaderView: UIView {
             setStatusButton.topAnchor.constraint(equalTo: setStatusTextField.bottomAnchor, constant: 16),
             setStatusButton.leadingAnchor.constraint(equalTo: profileImage.leadingAnchor),
             setStatusButton.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -16),
-            setStatusButton.heightAnchor.constraint(equalToConstant: 50)
+            setStatusButton.heightAnchor.constraint(equalToConstant: 50),
+            setStatusButton.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -16)
       ])
     }
 
