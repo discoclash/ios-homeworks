@@ -75,7 +75,6 @@ class ProfileHeaderView: UIView {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setTitle("Установить статус", for: .normal)
-        //button.setBackgroundImage(UIImage(named: "blue_pixel"), for: .normal)
         button.backgroundColor = colorSet
         button.setTitleColor(.white, for: .normal)
         button.layer.cornerRadius = 10
