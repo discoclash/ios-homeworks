@@ -7,10 +7,15 @@
 
 import UIKit
 
-class ProfileHeaderView: UIView {
+protocol ProfileHeaderViewDelegate: AnyObject {
+    func imageExpanded()
+    func imageCollapsed()
+}
+
+class ProfileHeaderView: UITableViewHeaderFooterView {
     
-    override init(frame: CGRect) {
-        super.init(frame: frame)
+    override init(reuseIdentifier: String?) {
+        super.init(reuseIdentifier: reuseIdentifier)
         setupView()
         setupGestures()
     }
@@ -18,6 +23,8 @@ class ProfileHeaderView: UIView {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    weak var delegate: ProfileHeaderViewDelegate?
     
     let profileImage: UIImageView = {
         let imageView = UIImageView()
@@ -96,7 +103,7 @@ class ProfileHeaderView: UIView {
     private lazy var profileImageBounds = profileImage.layer.bounds
     
     // Создал вью - которое будет при тапе на аватар фоном - полупрозрачным
-    private let expandProfileView: UIView = {
+    let expandProfileView: UIView = {
         let uiView = UIView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height))
         uiView.translatesAutoresizingMaskIntoConstraints = false
         uiView.backgroundColor = .black
@@ -105,11 +112,12 @@ class ProfileHeaderView: UIView {
     }()
     
     // Создал кнопку выхода из режима увеличенного просмотра аватарки
-    private let collapseProfileImageButton: UIButton = {
+    private lazy var collapseProfileImageButton: UIButton = {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.setImage(UIImage(systemName: "multiply", withConfiguration: UIImage.SymbolConfiguration(pointSize: 16))?.withTintColor(colorSet, renderingMode: .alwaysOriginal), for: .normal)
         $0.contentMode = .scaleAspectFill
         $0.alpha = 0.0
+        $0.isUserInteractionEnabled = false
         $0.addTarget(self, action: #selector(collapseAction), for: .touchUpInside)
         return $0
     }(UIButton())
@@ -157,24 +165,26 @@ class ProfileHeaderView: UIView {
     }
     
     @objc private func tapProfileImage() {
-                self.profileImagePosition = self.profileImage.layer.position
-                self.profileImageBounds = self.profileImage.layer.bounds
-                UIImageView.animate(withDuration: 0.5, delay: 0, options: .curveEaseIn) {
-                    self.profileImage.center = CGPoint(x: UIScreen.main.bounds.midX, y: UIScreen.main.bounds.midY)
-                    self.profileImage.layer.bounds = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.width)
-                    self.profileImage.layer.cornerRadius = 0
-                    self.expandProfileView.alpha = 0.8
-                    self.profileImage.isUserInteractionEnabled = false
-                    self.setStatusButton.isUserInteractionEnabled = false
-                    self.setStatusTextField.isUserInteractionEnabled = false
-                    
-                    self.layoutIfNeeded()
-                } completion: { _ in
-                    UIImageView.animate(withDuration: 0.3, delay: 0, options: .curveEaseIn){
-                        self.collapseProfileImageButton.alpha = 1
-                    }
-                    
-                }
+        delegate?.imageExpanded()
+        self.profileImagePosition = self.profileImage.layer.position
+        self.profileImageBounds = self.profileImage.layer.bounds
+        UIImageView.animate(withDuration: 0.5, delay: 0, options: .curveEaseIn) {
+            self.profileImage.center = CGPoint(x: UIScreen.main.bounds.midX, y: UIScreen.main.bounds.midY)
+            self.profileImage.layer.bounds = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.width)
+            self.profileImage.layer.cornerRadius = 0
+            self.expandProfileView.alpha = 0.8
+            self.profileImage.isUserInteractionEnabled = false
+            self.setStatusButton.isUserInteractionEnabled = false
+            self.setStatusTextField.isUserInteractionEnabled = false
+            self.layoutIfNeeded()
+        } completion: { _ in
+            UIImageView.animate(withDuration: 0.3, delay: 0, options: .curveEaseIn){
+                self.collapseProfileImageButton.alpha = 1
+                self.collapseProfileImageButton.isUserInteractionEnabled = true
+                self.layoutIfNeeded()
+            }
+            
+        }
     }
     
     @objc private func collapseAction() {
@@ -192,5 +202,6 @@ class ProfileHeaderView: UIView {
                 layoutIfNeeded()
             }
         }
+        delegate?.imageCollapsed()
     }
 }
