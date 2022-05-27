@@ -32,7 +32,7 @@ class FeedViewController: UIViewController {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setTitle("Новый пост 1", for: .normal)
-        button.backgroundColor = .systemBlue
+        button.backgroundColor = colorSet
         button.addTarget(self, action: #selector(newPostAction), for: .touchUpInside)
         button.layer.cornerRadius = 12
         return button
@@ -42,7 +42,7 @@ class FeedViewController: UIViewController {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setTitle("Новый пост 2", for: .normal)
-        button.backgroundColor = .systemBlue
+        button.backgroundColor = colorSet
         button.addTarget(self, action: #selector(newPostAction), for: .touchUpInside)
         button.layer.cornerRadius = 12
         return button

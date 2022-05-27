@@ -58,10 +58,12 @@ extension ProfileViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.section == 0 {
             let cell = tableView.dequeueReusableCell(withIdentifier: PhotosTableViewCell.identifier, for: indexPath)
+            cell.selectionStyle = .none
             return cell
         } else {
             let cell = tableView.dequeueReusableCell(withIdentifier: PostTableViewCell.identifier, for: indexPath) as! PostTableViewCell
             cell.setupCell(postsModel[indexPath.row])
+            cell.selectionStyle = .none
             return cell
         }
     }
@@ -75,6 +77,7 @@ extension ProfileViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         if section == 0 {
             let header =  ProfileHeaderView()
+            header.delegate = self
             return header } else {
                 return nil
             }
@@ -91,3 +94,17 @@ extension ProfileViewController: UITableViewDelegate {
         }
     }
 }
+
+extension ProfileViewController: ProfileHeaderViewDelegate {
+    func imageExpanded() {
+        self.tableView.isScrollEnabled = false
+        self.tableView.cellForRow(at: IndexPath(item: 0, section: 0))?.isUserInteractionEnabled = false
+        self.tableView.cellForRow(at: IndexPath(item: 0, section: 1))?.isUserInteractionEnabled = false
+    }
+    func imageCollapsed() {
+        self.tableView.isScrollEnabled = true
+        self.tableView.cellForRow(at: IndexPath(item: 0, section: 0))?.isUserInteractionEnabled = true
+        self.tableView.cellForRow(at: IndexPath(item: 0, section: 1))?.isUserInteractionEnabled = true
+    }
+}
+

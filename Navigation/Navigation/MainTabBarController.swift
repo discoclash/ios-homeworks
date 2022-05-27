@@ -19,6 +19,8 @@ class MainTabBarController: UITabBarController {
         
         print("screenWidth = \(screenWidth)")
         print("screenHeight = \(screenHeight)")
+        
+        self.view.tintColor = UIColor(ciColor: .init(color: colorSet))
         setupControllers()
     }
     
