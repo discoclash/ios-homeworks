@@ -58,7 +58,6 @@ class PostTableViewCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         layout()
-        
     }
     
     required init?(coder: NSCoder) {
@@ -75,10 +74,10 @@ class PostTableViewCell: UITableViewCell {
     
     private func layout() {
         [authorLabel, postImage, discriptionLabel, likesLabel, viewsLabel].forEach { contentView.addSubview($0) }
+        
         let inset: CGFloat = 16
         
         NSLayoutConstraint.activate([
-            
             authorLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: inset),
             authorLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: inset),
             authorLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -inset),
@@ -98,8 +97,7 @@ class PostTableViewCell: UITableViewCell {
             
             viewsLabel.topAnchor.constraint(equalTo: discriptionLabel.bottomAnchor, constant: inset),
             viewsLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -inset),
-            viewsLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -inset),
-            
+            viewsLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -inset)
         ])
     }
 }

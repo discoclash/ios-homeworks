@@ -16,23 +16,20 @@ class LogInViewController: UIViewController {
         return $0
     }(UIScrollView())
     
-    
     private let contentView: UIView = {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.backgroundColor = .white
         return $0
     }(UIView())
     
-    
-    private lazy var logInImage: UIImageView = {
+    private let logInImage: UIImageView = {
         $0.image = UIImage(named: "logo")
         $0.backgroundColor = .clear
         $0.translatesAutoresizingMaskIntoConstraints = false
         return $0
     }(UIImageView())
     
-    
-    private lazy var logInSackView: UIStackView = {
+    private let logInSackView: UIStackView = {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.layer.borderColor = UIColor.lightGray.cgColor
         $0.layer.borderWidth = 0.5
@@ -43,7 +40,6 @@ class LogInViewController: UIViewController {
         $0.spacing = -1
         return $0
     } (UIStackView())
-    
     
     private lazy var loginTextField: UITextField = {
         $0.translatesAutoresizingMaskIntoConstraints = false
@@ -60,7 +56,6 @@ class LogInViewController: UIViewController {
         $0.delegate = self
         return $0
     } (UITextField())
-    
     
     private lazy var passwordTextField: UITextField = {
         $0.translatesAutoresizingMaskIntoConstraints = false
@@ -79,7 +74,7 @@ class LogInViewController: UIViewController {
         return $0
     } (UITextField())
   
-    private let logInButton : UIButton = {
+    private lazy var logInButton : UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setTitle("Войти", for: .normal)
@@ -96,13 +91,11 @@ class LogInViewController: UIViewController {
         navigationController?.pushViewController(profileViewController, animated: true)
     }
     
-    
-
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
+        navigationController?.navigationBar.isHidden = true
         layout()
-
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -140,7 +133,6 @@ class LogInViewController: UIViewController {
         [loginTextField, passwordTextField].forEach { logInSackView.addArrangedSubview($0) }
         
         NSLayoutConstraint.activate([
-            
             scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             scrollView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
             scrollView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
@@ -167,10 +159,8 @@ class LogInViewController: UIViewController {
             logInButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
             logInButton.heightAnchor.constraint(equalToConstant: 50),
             logInButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
-          
         ])
     }
-    
 }
 
 extension LogInViewController: UITextFieldDelegate {

@@ -28,7 +28,7 @@ class ProfileHeaderView: UIView {
         return imageView
     }()
     
-    lazy var profileNameLabel: UILabel = {
+    let profileNameLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.text = "Жратико"
@@ -37,7 +37,7 @@ class ProfileHeaderView: UIView {
         return label
     }()
     
-    lazy var  profileStatusLabel: UILabel = {
+    let  profileStatusLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.text = "Когда кушать?"
@@ -64,19 +64,17 @@ class ProfileHeaderView: UIView {
     }()
     
     
-    private lazy var statusText = ""
+    private var statusText = ""
     @objc private func statusTextChanged() {
         if let text = setStatusTextField.text {
         statusText = text
         }
     }
     
-    
     lazy var setStatusButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setTitle("Установить статус", for: .normal)
-        //button.setBackgroundImage(UIImage(named: "blue_pixel"), for: .normal)
         button.backgroundColor = colorSet
         button.setTitleColor(.white, for: .normal)
         button.layer.cornerRadius = 10
@@ -90,7 +88,6 @@ class ProfileHeaderView: UIView {
             profileStatusLabel.text = statusText
         }
         setStatusTextField.text = ""
-        
     }
    
     private func setupView() {
@@ -105,25 +102,24 @@ class ProfileHeaderView: UIView {
             
             profileNameLabel.topAnchor.constraint(equalTo: self.topAnchor, constant: 27),
             profileNameLabel.leadingAnchor.constraint(equalTo: profileImage.trailingAnchor, constant: 16),
-            profileNameLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -16),
+            profileNameLabel.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor, constant: -16),
             
 
             profileStatusLabel.leadingAnchor.constraint(equalTo: profileNameLabel.leadingAnchor),
             profileStatusLabel.bottomAnchor.constraint(equalTo: profileImage.bottomAnchor, constant: -8),
-            profileStatusLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -16),
+            profileStatusLabel.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor, constant: -16),
             
             
             setStatusTextField.leadingAnchor.constraint(equalTo: profileStatusLabel.leadingAnchor),
             setStatusTextField.topAnchor.constraint(equalTo: profileStatusLabel.bottomAnchor, constant: 8),
-            setStatusTextField.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -16),
+            setStatusTextField.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor, constant: -16),
             setStatusTextField.heightAnchor.constraint(equalToConstant: 40),
             
             setStatusButton.topAnchor.constraint(equalTo: setStatusTextField.bottomAnchor, constant: 16),
             setStatusButton.leadingAnchor.constraint(equalTo: profileImage.leadingAnchor),
-            setStatusButton.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -16),
+            setStatusButton.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor, constant: -16),
             setStatusButton.heightAnchor.constraint(equalToConstant: 50),
             setStatusButton.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -16)
       ])
     }
-
 }

@@ -25,5 +25,4 @@ class PostViewController: UIViewController {
         let addPost = InfoViewController()
         present(addPost, animated: true)
     }
-    
 }
