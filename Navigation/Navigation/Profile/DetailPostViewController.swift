@@ -1,24 +1,26 @@
 //
-//  PostTableViewCell.swift
+//  DetailPostViewController.swift
 //  Navigation
 //
-//  Created by G on 19.05.2022.
+//  Created by G on 27.05.2022.
 //
 
 import UIKit
 
-protocol DetailPostDelegate: AnyObject {
-    func presentDetailPostVC(author: UILabel, image: UIImageView, discripton: UILabel, likes: Int, views: Int)
-}
-
-class PostTableViewCell: UITableViewCell {
+class DetailPostViewController: UIViewController {
     
-    weak var delegate: DetailPostDelegate?
-
-    private var likes: Int = 0
-    private var views: Int = 0
+    let scrollView: UIScrollView = {
+        $0.translatesAutoresizingMaskIntoConstraints = false
+        return $0
+    }(UIScrollView())
     
-    private let authorLabel: UILabel = {
+    let contentView: UIView = {
+        $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.backgroundColor = .white
+        return $0
+    }(UIView())
+    
+    let authorLabel: UILabel = {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.textColor = .black
         $0.font = .systemFont(ofSize: 20, weight: .bold)
@@ -27,23 +29,23 @@ class PostTableViewCell: UITableViewCell {
         return $0
     }(UILabel())
     
-    private let postImage: UIImageView = {
+    let postImage: UIImageView = {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.backgroundColor = .black
         $0.contentMode = .scaleAspectFit
         return $0
     }(UIImageView())
     
-    private let  discriptionLabel: UILabel = {
+    let  discriptionLabel: UILabel = {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.textColor = .systemGray
         $0.font = .systemFont(ofSize: 14)
         $0.backgroundColor = .clear
-        $0.numberOfLines = 5
+        $0.numberOfLines = 0
         return $0
     }(UILabel())
     
-    private let likesLabel: UILabel = {
+    let likesLabel: UILabel = {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.textColor = .black
         $0.font = .systemFont(ofSize: 16)
@@ -51,60 +53,44 @@ class PostTableViewCell: UITableViewCell {
         return $0
     }(UILabel())
     
-    private let  viewsLabel: UILabel = {
+    let viewsLabel: UILabel = {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.textColor = .black
         $0.font = .systemFont(ofSize: 16)
         $0.backgroundColor = .clear
         return $0
     }(UILabel())
-    
-    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
-        layout()
-        setupGestures()
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    func setupCell (_ model: PostModel) {
-        authorLabel.text = model.author
-        postImage.image = UIImage(named: model.image)
-        discriptionLabel.text = model.discription
-        if likes == 0 { likes = model.likes }
-        if views == 0 { views = model.views }
-        likesLabel.text = "Лайков: \(likes)"
-        viewsLabel.text = "Просмотров: \(views)"
-    }
-    
-    private func setupGestures() {
-        let tapOnLabel = UITapGestureRecognizer(target: self, action: #selector(tapLabel))
-        let tapOnImage = UITapGestureRecognizer(target: self, action: #selector(tapImage))
-        postImage.isUserInteractionEnabled = true
-        postImage.addGestureRecognizer(tapOnImage)
-        likesLabel.isUserInteractionEnabled = true
-        likesLabel.addGestureRecognizer(tapOnLabel)
-    }
-    
-    @objc private func tapLabel() {
-        likes += 1
-        likesLabel.text = "Лайков: \(likes)"
-    }
-    
-    @objc private func tapImage() {
-        views += 1
-        viewsLabel.text = "Просмотров: \(views)"
-        delegate?.presentDetailPostVC(author: authorLabel, image: postImage, discripton: discriptionLabel, likes: likes, views: views)
-    }
 
-    private func layout() {
+      override func viewDidLoad() {
+        super.viewDidLoad()
+        navigationController?.navigationBar.isHidden = false
+        view.backgroundColor = .white
+        layout()
+    }
+      
+      private func layout() {
+        [authorLabel, postImage, discriptionLabel, likesLabel, viewsLabel].forEach { view.addSubview($0) }
+        
+        view.addSubview(scrollView)
+        
+        scrollView.addSubview(contentView)
+        
         [authorLabel, postImage, discriptionLabel, likesLabel, viewsLabel].forEach { contentView.addSubview($0) }
         
         let inset: CGFloat = 16
         
         NSLayoutConstraint.activate([
+            scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            scrollView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            scrollView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            scrollView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+            
+            contentView.topAnchor.constraint(equalTo: scrollView.topAnchor),
+            contentView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
+            contentView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
+            contentView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
+            contentView.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
+            
             authorLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: inset),
             authorLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: inset),
             authorLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -inset),
@@ -128,3 +114,6 @@ class PostTableViewCell: UITableViewCell {
         ])
     }
 }
+      
+      
+      

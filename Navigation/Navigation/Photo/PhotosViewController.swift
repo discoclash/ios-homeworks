@@ -48,7 +48,7 @@ extension PhotosViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PhotosCollectionViewCell.identifier, for: indexPath) as! PhotosCollectionViewCell
-        cell.image.image = UIImage(named: "\(indexPath.item + 1)")
+        cell.setupCell(imageName: "\(indexPath.item + 1)")
         return cell
     }
 }
@@ -72,5 +72,39 @@ extension PhotosViewController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
         sideInset
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        presentPhoto(indexOfPhoto: indexPath.item)
+    }
+}
+
+extension PhotosViewController {
+    
+    func presentPhoto(indexOfPhoto: Int) {
+        let photoImageView: UIImageView = {
+            $0.translatesAutoresizingMaskIntoConstraints = false
+            $0.image = UIImage(named: "\(indexOfPhoto + 1)")
+            $0.contentMode = .scaleAspectFit
+            $0.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.8)
+            $0.isUserInteractionEnabled = true
+            return $0
+        }(UIImageView())
+        
+        view.addSubview(photoImageView)
+        
+        NSLayoutConstraint.activate([
+            photoImageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            photoImageView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            photoImageView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            photoImageView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+        ])
+        
+        let tapToImage = UITapGestureRecognizer(target: self, action: #selector(dismissFullscreenImage))
+        photoImageView.addGestureRecognizer(tapToImage)
+    }
+    
+    @objc func dismissFullscreenImage(_ sender: UITapGestureRecognizer) {
+        sender.view?.removeFromSuperview()
     }
 }
