@@ -8,15 +8,20 @@
 import UIKit
 
 protocol DetailPostDelegate: AnyObject {
-    func presentDetailPostVC(author: UILabel, image: UIImageView, discripton: UILabel, likes: Int, views: Int)
+    func presentDetailPostVC(indexPath: IndexPath?, author: UILabel, image: UIImageView, discripton: UILabel, likes: Int, views: Int, isLiked: Bool)
 }
 
 class PostTableViewCell: UITableViewCell {
     
     weak var delegate: DetailPostDelegate?
+    
+    var indexPath: IndexPath?
 
     private var likes: Int = 0
     private var views: Int = 0
+    private var isLiked: Bool = false
+    private var isViewed: Bool = false
+    
     
     private let authorLabel: UILabel = {
         $0.translatesAutoresizingMaskIntoConstraints = false
@@ -73,8 +78,16 @@ class PostTableViewCell: UITableViewCell {
         authorLabel.text = model.author
         postImage.image = UIImage(named: model.image)
         discriptionLabel.text = model.discription
-        if likes == 0 { likes = model.likes }
-        if views == 0 { views = model.views }
+        likes = model.likes
+        views = model.views
+        isLiked = model.isLiked
+        if isLiked {
+            likesLabel.textColor = .systemRed
+        }
+        isViewed = model.isViewed
+        if isViewed {
+            viewsLabel.textColor = colorSet
+        }
         likesLabel.text = "Лайков: \(likes)"
         viewsLabel.text = "Просмотров: \(views)"
     }
@@ -89,15 +102,44 @@ class PostTableViewCell: UITableViewCell {
     }
     
     @objc private func tapLabel() {
-        likes += 1
-        likesLabel.text = "Лайков: \(likes)"
+        if !isLiked {
+            likes += 1
+            likesLabel.text = "Лайков: \(likes)"
+            likesLabel.textColor = .systemRed
+            isLiked.toggle()
+            if let i = indexPath {
+                postsModel[i.row].likes += 1
+                postsModel[i.row].isLiked.toggle()
+                print("\(postsModel[i.row].author) - \(postsModel[i.row].likes) лайков")
+            }
+        } else {
+            likes -= 1
+            likesLabel.text = "Лайков: \(likes)"
+            likesLabel.textColor = .black
+            isLiked.toggle()
+            if let i = indexPath {
+                postsModel[i.row].likes -= 1
+                postsModel[i.row].isLiked.toggle()
+                print("\(postsModel[i.row].author) - \(postsModel[i.row].likes) лайков")
+            }
+        }
     }
     
     @objc private func tapImage() {
-        views += 1
-        viewsLabel.text = "Просмотров: \(views)"
-        delegate?.presentDetailPostVC(author: authorLabel, image: postImage, discripton: discriptionLabel, likes: likes, views: views)
+        if !isViewed {
+            views += 1
+            viewsLabel.text = "Просмотров: \(views)"
+            viewsLabel.textColor = colorSet
+            isViewed.toggle()
+            if let i = indexPath {
+                postsModel[i.row].views += 1
+                postsModel[i.row].isViewed.toggle()
+                print("\(postsModel[i.row].author) - \(postsModel[i.row].views) просмотров")
+            }
+        }
+        delegate?.presentDetailPostVC(indexPath: indexPath, author: authorLabel, image: postImage, discripton: discriptionLabel, likes: likes, views: views, isLiked: isLiked)
     }
+    
 
     private func layout() {
         [authorLabel, postImage, discriptionLabel, likesLabel, viewsLabel].forEach { contentView.addSubview($0) }

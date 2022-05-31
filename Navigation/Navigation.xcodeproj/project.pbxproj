@@ -129,9 +129,9 @@
 				256DAD33283DA12B00717B16 /* Photo */,
 				256DAD34283DA17200717B16 /* Feed */,
 				25737A6B28247E0A0027E3D0 /* MainTabBarController.swift */,
-				258251C82835C10B004AF17E /* UIView+Extension.swift */,
-				25C671DE28330E16003D6210 /* ColorSet.swift */,
 				2534721B2835661600BA4696 /* PostModel.swift */,
+				25C671DE28330E16003D6210 /* ColorSet.swift */,
+				258251C82835C10B004AF17E /* UIView+Extension.swift */,
 				25737A6028247D700027E3D0 /* Info.plist */,
 				255F4C81282480A400C8C5EF /* Resourses */,
 			);

@@ -59,14 +59,15 @@ extension ProfileViewController: UITableViewDataSource {
             let cell = tableView.dequeueReusableCell(withIdentifier: PhotosTableViewCell.identifier, for: indexPath)
             return cell
         }
-            let cell = tableView.dequeueReusableCell(withIdentifier: PostTableViewCell.identifier, for: indexPath) as! PostTableViewCell
-            cell.setupCell(postsModel[indexPath.row])
-            cell.delegate = self
-            cell.selectionStyle = .none
-            return cell
+        let cell = tableView.dequeueReusableCell(withIdentifier: PostTableViewCell.identifier, for: indexPath) as! PostTableViewCell
+        cell.setupCell(postsModel[indexPath.row])
+        cell.delegate = self
+        cell.indexPath = indexPath
+        cell.selectionStyle = .none
+        return cell
     }
     
- 
+    
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             postsModel.remove(at: indexPath.row)
@@ -120,8 +121,9 @@ extension ProfileViewController: imageAnimationDelegate {
 }
 
 extension ProfileViewController: DetailPostDelegate {
-    func presentDetailPostVC(author: UILabel, image: UIImageView, discripton: UILabel, likes: Int, views: Int) {
+    func presentDetailPostVC(indexPath: IndexPath?, author: UILabel, image: UIImageView, discripton: UILabel, likes: Int, views: Int, isLiked: Bool) {
         let detailVC = DetailPostViewController()
+        detailVC.indexPath = indexPath
         detailVC.authorLabel.text = author.text
         detailVC.postImage.image = image.image
         detailVC.discriptionLabel.text = discripton.text
@@ -129,6 +131,18 @@ extension ProfileViewController: DetailPostDelegate {
         detailVC.viewsLabel.text = "Просмотров: \(views)"
         detailVC.likesLabel.text = "Лайков: \(likes)"
         detailVC.viewsLabel.text = "Просмотров: \(views)"
+        if isLiked {
+            detailVC.likesLabel.textColor = .systemRed
+        }
+        detailVC.isLiked = isLiked
+        detailVC.likes = likes
+        detailVC.delegate = self
         present(detailVC, animated: true)
+    }
+}
+
+extension ProfileViewController: ReloadTableViewDataDelegate {
+    func reloadData() {
+        tableView.reloadData()
     }
 }

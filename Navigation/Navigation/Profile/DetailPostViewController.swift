@@ -7,7 +7,18 @@
 
 import UIKit
 
+protocol ReloadTableViewDataDelegate: AnyObject {
+    func reloadData()
+}
+
 class DetailPostViewController: UIViewController {
+    
+    weak var delegate: ReloadTableViewDataDelegate?
+    
+    var indexPath: IndexPath?
+    
+    var isLiked: Bool = false
+    var likes: Int = 0
     
     let scrollView: UIScrollView = {
         $0.translatesAutoresizingMaskIntoConstraints = false
@@ -60,12 +71,44 @@ class DetailPostViewController: UIViewController {
         $0.backgroundColor = .clear
         return $0
     }(UILabel())
-
-      override func viewDidLoad() {
+    
+    override func viewDidLoad() {
         super.viewDidLoad()
         navigationController?.navigationBar.isHidden = false
         view.backgroundColor = .white
         layout()
+        setupGestures()
+    }
+    
+    private func setupGestures() {
+        let tapOnLabel = UITapGestureRecognizer(target: self, action: #selector(tapLabel))
+        likesLabel.isUserInteractionEnabled = true
+        likesLabel.addGestureRecognizer(tapOnLabel)
+    }
+    
+    @objc private func tapLabel() {
+        if !isLiked {
+            likes += 1
+            likesLabel.text = "Лайков: \(likes)"
+            likesLabel.textColor = .systemRed
+            isLiked.toggle()
+            if let i = indexPath {
+                postsModel[i.row].likes += 1
+                postsModel[i.row].isLiked.toggle()
+                print("\(postsModel[i.row].author) - \(postsModel[i.row].likes) лайков")
+            }
+        } else {
+            likes -= 1
+            likesLabel.text = "Лайков: \(likes)"
+            likesLabel.textColor = .black
+            isLiked.toggle()
+            if let i = indexPath {
+                postsModel[i.row].likes -= 1
+                postsModel[i.row].isLiked.toggle()
+                print("\(postsModel[i.row].author) - \(postsModel[i.row].likes) лайков")
+            }
+        }
+        delegate?.reloadData()
     }
       
       private func layout() {
