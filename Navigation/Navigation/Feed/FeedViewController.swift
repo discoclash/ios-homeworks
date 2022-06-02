@@ -25,6 +25,7 @@ class FeedViewController: UIViewController {
         stackView.backgroundColor = .clear
         stackView.axis = .vertical
         stackView.spacing = 10
+        stackView.distribution = .fillEqually
         return stackView
     }()
     
@@ -42,7 +43,7 @@ class FeedViewController: UIViewController {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setTitle("Новый пост 2", for: .normal)
-        button.backgroundColor = colorSet
+        button.backgroundColor = .systemYellow
         button.addTarget(self, action: #selector(newPostAction), for: .touchUpInside)
         button.layer.cornerRadius = 12
         return button
@@ -61,7 +62,8 @@ class FeedViewController: UIViewController {
         NSLayoutConstraint.activate([
             feedStackView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             feedStackView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-            feedStackView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16)
+            feedStackView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
+            feedStackView.heightAnchor.constraint(equalToConstant: 110)
         
         ])
     }

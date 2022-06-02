@@ -7,7 +7,7 @@
 
 import UIKit
 
-protocol ProfileHeaderViewDelegate: AnyObject {
+protocol imageAnimationDelegate: AnyObject {
     func imageExpanded()
     func imageCollapsed()
 }
@@ -24,52 +24,48 @@ class ProfileHeaderView: UITableViewHeaderFooterView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    weak var delegate: ProfileHeaderViewDelegate?
+    weak var delegate: imageAnimationDelegate?
     
-    let profileImage: UIImageView = {
-        let imageView = UIImageView()
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.image = UIImage(named: "zhratiko")
-        imageView.contentMode = .scaleAspectFit
-        imageView.clipsToBounds = true
-        imageView.layer.cornerRadius = 50
-        return imageView
-    }()
+    private let profileImage: UIImageView = {
+        $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.image = UIImage(named: "zhratiko")
+        $0.contentMode = .scaleAspectFit
+        $0.clipsToBounds = true
+        $0.layer.cornerRadius = 50
+        return $0
+    }(UIImageView())
     
-    let profileNameLabel: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "Жратико"
-        label.textColor = .black
-        label.font = .boldSystemFont(ofSize: 18)
-        return label
-    }()
+    private let profileNameLabel: UILabel = {
+        $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.text = "Хатико"
+        $0.textColor = .black
+        $0.font = .boldSystemFont(ofSize: 18)
+        return $0
+    }(UILabel())
     
-    let  profileStatusLabel: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "Когда кушать?"
-        label.textColor = .darkGray
-        label.font = .systemFont(ofSize: 14)
-        return label
-    }()
+    private let profileStatusLabel: UILabel = {
+        $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.text = "Когда кушать?"
+        $0.textColor = .darkGray
+        $0.font = .systemFont(ofSize: 14)
+        return $0
+    }(UILabel())
     
-    lazy var setStatusTextField: UITextField = {
-        let textField = UITextField()
-        textField.translatesAutoresizingMaskIntoConstraints = false
-        textField.font = .systemFont(ofSize: 15)
-        textField.layer.cornerRadius = 12
-        textField.backgroundColor = .white
-        textField.layer.borderWidth = 1
-        textField.layer.borderColor = UIColor.lightGray.cgColor
-        textField.placeholder = "Введите статус"
-        textField.textColor = .lightGray
-        textField.leftView = UIView(frame: CGRect(x: 0, y: 10, width: 10, height: textField.frame.height))
-        textField.leftViewMode = .always
-        textField.addTarget(self, action: #selector(statusTextChanged), for: .editingChanged)
-        textField.clearsOnBeginEditing = true
-        return textField
-    }()
+    private lazy var setStatusTextField: UITextField = {
+        $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.font = .systemFont(ofSize: 15)
+        $0.layer.cornerRadius = 12
+        $0.backgroundColor = .white
+        $0.layer.borderWidth = 1
+        $0.layer.borderColor = UIColor.lightGray.cgColor
+        $0.placeholder = "Введите статус"
+        $0.textColor = .lightGray
+        $0.leftView = UIView(frame: CGRect(x: 0, y: 10, width: 10, height: $0.frame.height))
+        $0.leftViewMode = .always
+        $0.addTarget(self, action: #selector(statusTextChanged), for: .editingChanged)
+        $0.clearsOnBeginEditing = true
+        return $0
+    }(UITextField())
     
     
     private var statusText = ""
@@ -79,37 +75,38 @@ class ProfileHeaderView: UITableViewHeaderFooterView {
         }
     }
     
-    lazy var setStatusButton: UIButton = {
-        let button = UIButton()
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.setTitle("Установить статус", for: .normal)
-        button.backgroundColor = colorSet
-        button.setTitleColor(.white, for: .normal)
-        button.layer.cornerRadius = 10
-        button.clipsToBounds = true
-        button.addTarget(self, action: #selector(setStatusFunc), for: .touchUpInside)
-        return button
-    }()
+    private lazy var setStatusButton: UIButton = {
+        $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.setTitle("Установить статус", for: .normal)
+        $0.backgroundColor = colorSet
+        $0.setTitleColor(.white, for: .normal)
+        $0.layer.cornerRadius = 10
+        $0.clipsToBounds = true
+        $0.addTarget(self, action: #selector(setStatusFunc), for: .touchUpInside)
+        return $0
+    }(UIButton())
     
     @objc private func setStatusFunc() {
         if statusText != "" {
             profileStatusLabel.text = statusText
+            self.endEditing(true)
+        } else {
+            setStatusTextField.shakeText()
         }
         setStatusTextField.text = ""
-        self.endEditing(true)
+        statusText = ""
     }
    
     private lazy var profileImagePosition = profileImage.layer.position
     private lazy var profileImageBounds = profileImage.layer.bounds
     
     // Создал вью - которое будет при тапе на аватар фоном - полупрозрачным
-    let expandProfileView: UIView = {
-        let uiView = UIView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height))
-        uiView.translatesAutoresizingMaskIntoConstraints = false
-        uiView.backgroundColor = .black
-        uiView.alpha = 0.0
-        return uiView
-    }()
+    private let expandProfileView: UIView = {
+        $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.backgroundColor = .black
+        $0.alpha = 0.0
+        return $0
+    }(UIView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)))
     
     // Создал кнопку выхода из режима увеличенного просмотра аватарки
     private lazy var collapseProfileImageButton: UIButton = {
@@ -183,7 +180,6 @@ class ProfileHeaderView: UITableViewHeaderFooterView {
                 self.collapseProfileImageButton.isUserInteractionEnabled = true
                 self.layoutIfNeeded()
             }
-            
         }
     }
     
@@ -199,9 +195,9 @@ class ProfileHeaderView: UITableViewHeaderFooterView {
                 self.profileImage.isUserInteractionEnabled = true
                 self.setStatusButton.isUserInteractionEnabled = true
                 self.setStatusTextField.isUserInteractionEnabled = true
+                delegate?.imageCollapsed()
                 layoutIfNeeded()
             }
         }
-        delegate?.imageCollapsed()
     }
 }

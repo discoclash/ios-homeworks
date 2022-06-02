@@ -73,22 +73,53 @@ class LogInViewController: UIViewController {
         $0.delegate = self
         return $0
     } (UITextField())
+    
+    private let invalidDataLabel: UILabel = {
+        $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.textColor = .systemRed
+        $0.font = .systemFont(ofSize: 12)
+        $0.contentMode = .scaleToFill
+        $0.isHidden = true
+        $0.text = "Введите пароль из 6 символов и более"
+        return $0
+    }(UILabel())
   
     private lazy var logInButton : UIButton = {
-        let button = UIButton()
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.setTitle("Войти", for: .normal)
-        button.setTitleColor(.white, for: .normal)
-        button.setBackgroundImage(UIImage(named: "blue_pixel"), for: .normal)
-        button.layer.cornerRadius = 10
-        button.clipsToBounds = true
-        button.addTarget(self, action: #selector(logIn), for: .touchUpInside)
-        return button
-    } ()
+        $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.setTitle("Войти", for: .normal)
+        $0.setTitleColor(.white, for: .normal)
+        $0.setBackgroundImage(UIImage(named: "blue_pixel"), for: .normal)
+        $0.layer.cornerRadius = 10
+        $0.clipsToBounds = true
+        $0.addTarget(self, action: #selector(logIn), for: .touchUpInside)
+        return $0
+    } (UIButton())
 
     @objc private func logIn() {
-        let profileViewController = ProfileViewController()
-        navigationController?.pushViewController(profileViewController, animated: true)
+        
+        guard let login = loginTextField.text else { return }
+        guard let password = passwordTextField.text else { return }
+        invalidDataLabel.isHidden = true
+        if login.isEmpty {
+         loginTextField.shakeText()
+         }
+        if password.isEmpty {
+            passwordTextField.shakeText()
+         }
+        if password.count < 6 && !login.isEmpty {
+                invalidDataLabel.isHidden = false
+        }
+        
+        let loginKey = LoginKey()
+        if login == loginKey.UserName && password == loginKey.UserPassword {
+            let profileViewController = ProfileViewController()
+            navigationController?.pushViewController(profileViewController, animated: true)
+        } else if !login.isEmpty && !password.isEmpty && password.count >= 6 {
+            let alert = UIAlertController(title: "Неверный логин или пароль", message: nil, preferredStyle: .alert)
+            let actionAlert = UIAlertAction(title: "ОК", style: .default) { (_) -> Void in }
+            alert.addAction(actionAlert)
+            present(alert, animated: true, completion: nil)
+        }
     }
     
     override func viewDidLoad() {
@@ -102,6 +133,7 @@ class LogInViewController: UIViewController {
         super.viewWillAppear(animated)
         nc.addObserver(self, selector: #selector(kbdShow), name: UIResponder.keyboardWillShowNotification, object: nil)
         nc.addObserver(self, selector: #selector(kbdHide), name: UIResponder.keyboardWillHideNotification, object: nil)
+        addTapGestureToHideKeyboard()
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -122,13 +154,18 @@ class LogInViewController: UIViewController {
         scrollView.verticalScrollIndicatorInsets = .zero
     }
     
+    private func addTapGestureToHideKeyboard() {
+        let tapGesture = UITapGestureRecognizer(target: view, action: #selector(view.endEditing))
+        view.addGestureRecognizer(tapGesture)
+    }
+    
     private func layout() {
         
         view.addSubview(scrollView)
         
         scrollView.addSubview(contentView)
         
-        [logInImage, logInSackView, logInButton].forEach { contentView.addSubview($0) }
+        [logInImage, logInSackView, invalidDataLabel, logInButton].forEach { contentView.addSubview($0) }
         
         [loginTextField, passwordTextField].forEach { logInSackView.addArrangedSubview($0) }
         
@@ -153,6 +190,9 @@ class LogInViewController: UIViewController {
             logInSackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
             logInSackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
             logInSackView.heightAnchor.constraint(equalToConstant: 100),
+            
+            invalidDataLabel.centerYAnchor.constraint(equalTo: logInSackView.bottomAnchor, constant: 8),
+            invalidDataLabel.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
             
             logInButton.topAnchor.constraint(equalTo: logInSackView.bottomAnchor, constant:  16),
             logInButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
