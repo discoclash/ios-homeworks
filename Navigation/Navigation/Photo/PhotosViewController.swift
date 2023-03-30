@@ -91,12 +91,13 @@ extension PhotosViewController {
             return $0
         }(UIImageView())
         
+        self.navigationController?.navigationBar.isHidden = true
         view.addSubview(photoImageView)
         
         NSLayoutConstraint.activate([
-            photoImageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            photoImageView.topAnchor.constraint(equalTo: view.topAnchor),
             photoImageView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            photoImageView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            photoImageView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             photoImageView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
         ])
         
@@ -106,5 +107,6 @@ extension PhotosViewController {
     
     @objc func dismissFullscreenImage(_ sender: UITapGestureRecognizer) {
         sender.view?.removeFromSuperview()
+        self.navigationController?.navigationBar.isHidden = false
     }
 }
